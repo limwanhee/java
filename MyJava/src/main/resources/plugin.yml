@@ -1,0 +1,4 @@
+name: Dfser
+version: '${project.version}'
+main: qwe.dfser.Dfser
+api-version: 1.19
