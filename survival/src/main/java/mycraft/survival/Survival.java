@@ -16,6 +16,31 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Arrays;
 
 public final class Survival extends JavaPlugin implements Listener {
+    class setItem{
+        ItemStack item;
+
+        Inventory i;
+        public void setItem(String v){
+            item = new ItemStack(Material.valueOf(v));
+
+        }
+        public void getInventoryname(Inventory i){
+            this.i = i;
+        }
+
+        public void setItemInInventory(int num){
+
+            i.setItem(num, item);
+        }
+
+        public void informationOfItem(String name, String explain) {
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.setDisplayName(name);
+            itemMeta.setLore(Arrays.asList(explain));
+            item.setItemMeta(itemMeta);
+        }
+    }
+
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
@@ -66,11 +91,11 @@ public final class Survival extends JavaPlugin implements Listener {
         Player p = e.getPlayer();
         Inventory i = Bukkit.createInventory(null, 27, "메뉴");
 
-        ItemStack clock = new ItemStack(Material.CLOCK);
-        ItemMeta clockMeta = clock.getItemMeta();
-        clockMeta.setDisplayName("낮밤 바꾸기");
-        clockMeta.setLore(Arrays.asList("누르면 낮 또는 밤으로 바꿉니다"));
-        clock.setItemMeta(clockMeta);
+        setItem s1 = new setItem();
+        s1.getInventoryname(i);
+        s1.setItem("CLOCK");
+        s1.informationOfItem("낮밤 바꾸기", "누르면 낮 또는 밤으로 바꿉니다");
+        s1.setItemInInventory(11);
 
 
         ItemStack L_rod = new ItemStack(Material.LIGHTNING_ROD);
@@ -85,13 +110,13 @@ public final class Survival extends JavaPlugin implements Listener {
         chestMeta.setLore(Arrays.asList("누르면 개인 창고가 열립니다"));
         chest.setItemMeta(chestMeta);
 
-        i.setItem(11, clock);
+
+
         i.setItem(13, L_rod);
         i.setItem(15, chest);
 
         if(p.isSneaking()){
             p.openInventory(i);
-
         }
     }
 }
